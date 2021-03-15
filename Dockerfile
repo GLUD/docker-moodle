@@ -1,7 +1,8 @@
 FROM webdevops/php-nginx:alpine-php5
 LABEL maintainer "Sebastian Tabares Amaya <sytabaresa@gmail.com>"
+LABEL maintainer "Juan Felipe Rodriguez Galindo <juferoga@gmail.com>"
 
-ENV VERSION 33
+ENV VERSION 310
 
 RUN apk -U --no-progress add \
     acl mariadb-client postgresql-client php5-pgsql php5-opcache php5-pdo_pgsql
