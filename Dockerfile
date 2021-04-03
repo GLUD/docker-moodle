@@ -1,13 +1,13 @@
-FROM webdevops/php-nginx:alpine-php5
+FROM webdevops/php-nginx:alpine-3-php7
 LABEL maintainer "Sebastian Tabares Amaya <sytabaresa@gmail.com>"
 LABEL maintainer "Juan Felipe Rodriguez Galindo <juferoga@gmail.com>"
 
 ENV VERSION 310
 
 RUN apk -U --no-progress add \
-    acl mariadb-client postgresql-client php5-pgsql php5-opcache php5-pdo_pgsql
+    acl mariadb-client postgresql-client php7-pgsql php7-opcache php7-pdo_pgsql
 
-RUN curl https://download.moodle.org/download.php/direct/stable${VERSION}/moodle-latest-${VERSION}.tgz \
+RUN curl https://download.moodle.org/download.php/direct/stable310/moodle-latest-310.tgz \
  | tar -xzC /tmp  \
  && mv /tmp/moodle/* /app \
  && rm -rf /tmp/moodle  \
