@@ -1,4 +1,4 @@
-FROM webdevops/php-nginx:alpine-3-php7
+FROM webdevops/php-nginx:7.4-alpine
 LABEL maintainer "Sebastian Tabares Amaya <sytabaresa@gmail.com>"
 LABEL maintainer "Juan Felipe Rodriguez Galindo <juferoga@gmail.com>"
 
