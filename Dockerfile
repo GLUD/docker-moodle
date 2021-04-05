@@ -27,6 +27,6 @@ RUN mkdir /var/moodledata \
 VOLUME ["/var/moodledata"]
 
 WORKDIR /app
-#COPY moodle_config.php /app/config.php
+COPY moodle_config.php /app/config.php
 COPY php.ini /opt/docker/etc/php/php.ini
 COPY nginx_10-php.conf /opt/docker/etc/nginx/vhost.common.d/10-php.conf
