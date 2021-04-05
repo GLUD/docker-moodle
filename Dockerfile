@@ -5,7 +5,7 @@ LABEL maintainer "Juan Felipe Rodriguez Galindo <juferoga@gmail.com>"
 ENV VERSION 310
 
 RUN apk -U --no-progress add \
-    acl mariadb-client postgresql-client php7-pgsql php7-opcache php7-pdo_pgsql
+    acl mariadb-client postgresql-client php7.2-pgsql php7.2-opcache php7.2-pdo_pgsql
 
 RUN curl https://download.moodle.org/download.php/direct/stable310/moodle-latest-310.tgz \
  | tar -xzC /tmp  \
