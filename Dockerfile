@@ -1,20 +1,28 @@
-FROM webdevops/php-nginx:7.4-alpine
-LABEL maintainer "Sebastian Tabares Amaya <sytabaresa@gmail.com>"
+FROM moodlehq/moodle-php-apache:8.0
+LABEL maintainer "Bryan Muñoz <swsbmm@gmail.com>"
 LABEL maintainer "Juan Felipe Rodriguez Galindo <juferoga@gmail.com>"
 
+
 ENV VERSION 310
-
-RUN apk -U --no-progress add \
-    acl mariadb-client postgresql-client php7.2-pgsql php7.2-opcache php7.2-pdo_pgsql
-
-RUN curl https://download.moodle.org/download.php/direct/stable310/moodle-latest-310.tgz \
- | tar -xzC /tmp  \
- && mv /tmp/moodle/* /app \
+ENV URL_MOODLE ""
+ENV CRON_MOODLE "*/1 * * * * /usr/local/bin/php /var/www/html/admin/cli/cron.php 1>/var/log/moodle1.log 2>/var/log/moodle.log"
+# Pere que me dejaron un taller de frances XD, OK me voy a bañar 
+# breve si algo sigamos en la tarde-noche XD# jaja buen, si porque depronto salgo
+# entonces nos pillamos mas tarde 
+# El crontab -u root no es igual a crontab -u www-data
+RUN apt update \
+ && apt install -y cron \
+ && touch /var/log/moodle1.log /var/log/moodle.log \
+ && echo $CRON_MOODLE_FAILS | crontab \ 
+ ## activando cron
+ && /etc/init.d/cron start \
+RUN curl $URL_MOODLE \
+| tar -xzC /tmp  \
+ && mv /tmp/moodle/* /var/www/html \
  && rm -rf /tmp/moodle  \
- && chown -R root /app \
- && chmod -R 0755 /app \
- && find /app -type f -exec chmod 0644 {} \; \
- && chown -R nginx: /app
+ && chown -R root /var/www/html \
+ && chmod -R 0755 /var/www/html \
+ && find /var/www/html -type f -exec chmod 0644 {} \; \
 
 
 RUN mkdir /var/moodledata \
