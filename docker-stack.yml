@@ -15,7 +15,8 @@ services:
       - data:/var/moodledata
     secrets:
       - db_password
-    environment:  
+    environment:
+      - URL_MOODLE_DOWNLOAD
       - MOODLE_URL=https://cursos.glud.org
       - DB_TYPE=pgsql #or mariadb
       - DB_TCP_ADDR=db

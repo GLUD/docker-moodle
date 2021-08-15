@@ -2,39 +2,26 @@ FROM moodlehq/moodle-php-apache:8.0
 LABEL maintainer "Bryan Muñoz <swsbmm@gmail.com>"
 LABEL maintainer "Juan Felipe Rodriguez Galindo <juferoga@gmail.com>"
 
+ENV URL_MOODLE_DOWNLOAD ""
+ # Que hace ?
+ # 12. Descargar moodle de la pagina oficial.
+ # 13. Descomprime moodle
+ # 14. Borra el comprimido descargado
+ # 15. Mueve el archivo temporal a /var/www/html
+RUN cd /tmp/ && echo "se movio de carpeta"; sleep 1\
+ && curl -o /tmp/moodle.tgz $URL_MOODLE_DOWNLOAD && echo "se descargo moodle"; sleep 1 \
+ && tar -xzvf /tmp/moodle.tgz && echo "se descomprimio"; sleep 1\
+ && rm *tgz && echo "se borro"; sleep 1 \
+ && mv /tmp/moodle/* /var/www/html && echo "Se mueve la carpeta"; sleep 1 \
+ && rm -rf /tmp/moodle && echo "Borrado carpeta temporal"; sleep 1 \
+ && chown -R root /var/www/html && echo "cambio de usurio a root"; sleep 1 \
+ && chmod -R 0755 /var/www/html && echo "cambio permisos"; sleep 1 \
+ && find /var/www/html -type f -exec chmod 0644 {} \;  && echo "cambio permisos"; sleep 1;
 
-ENV VERSION 310
-ENV URL_MOODLE ""
-ENV CRON_MOODLE "*/1 * * * * /usr/local/bin/php /var/www/html/admin/cli/cron.php 1>/var/log/moodle1.log 2>/var/log/moodle.log"
-# Pere que me dejaron un taller de frances XD, OK me voy a bañar 
-# breve si algo sigamos en la tarde-noche XD# jaja buen, si porque depronto salgo
-# entonces nos pillamos mas tarde 
-# El crontab -u root no es igual a crontab -u www-data
-RUN apt update \
- && apt install -y cron \
- && touch /var/log/moodle1.log /var/log/moodle.log \
- && echo $CRON_MOODLE_FAILS | crontab \ 
+ ## Instlando cron
  ## activando cron
- && /etc/init.d/cron start \
-RUN curl $URL_MOODLE \
-| tar -xzC /tmp  \
- && mv /tmp/moodle/* /var/www/html \
- && rm -rf /tmp/moodle  \
- && chown -R root /var/www/html \
- && chmod -R 0755 /var/www/html \
- && find /var/www/html -type f -exec chmod 0644 {} \; \
-
-
-RUN mkdir /var/moodledata \
- && echo "placeholder" > /var/moodledata/placeholder \
- #&& chown -R www-data:www-data /var/moodledata \
- && chown -R nginx: /var/moodledata \
- && chmod 0777 /var/moodledata \
- && read pid cmd state ppid pgrp session tty_nr tpgid rest < /proc/self/stat
-
-VOLUME ["/var/moodledata"]
-
-WORKDIR /app
-COPY moodle_config.php /app/config.php
-COPY php.ini /opt/docker/etc/php/php.ini
-COPY nginx_10-php.conf /opt/docker/etc/nginx/vhost.common.d/10-php.conf
+ ## Guardando cron
+RUN apt update && echo "Se actualizan los repositorios"; sleep 1\
+ && apt install -y cron && echo "Se instala cron"; sleep 1\
+ && /etc/init.d/cron start && echo "Se activa servicio de cron"; sleep 1\
+ && echo "*/1 * * * * root /usr/local/bin/php /var/www/html/admin/cli/cron.php 1>/var/log/moodle_good.log 2>/var/log/moodle_fail.log" >> /etc/crontab; echo "Se acabo"; sleep 1;
