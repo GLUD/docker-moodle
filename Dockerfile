@@ -23,6 +23,6 @@ RUN cd /tmp/ && echo "Se movio de carpeta"; sleep 1\
  ## Guardando cron
 RUN apt-get update && echo "Se actualizan los repositorios"; sleep 1\
  && apt install -y cron && echo "Se instala cron"; sleep 3\
- && /etc/init.d/cron start && echo "Se activa servicio de cron primer intento"; sleep 1\
- && /etc/init.d/cron start && echo "Se activa servicio de cron segundo intento"; sleep 1\
  && echo "*/1 * * * * root /usr/local/bin/php /var/www/html/admin/cli/cron.php 1>/var/log/moodle_good.log 2>/var/log/moodle_fail.log" >> /etc/crontab; echo "Se acabo"; sleep 1;
+
+CMD service cron start && echo "CRON --ACTIVE--"; sleep 1;
