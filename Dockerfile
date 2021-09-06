@@ -27,4 +27,5 @@ RUN apt-get clean && apt-get update && echo "Actualizando repositorios"; sleep 1
 
 RUN rm -r /var/www/moodledata/cache/ && echo "Borrando carpeta de cache para evitar problemas"; sleep 1;
 
-CMD service cron start && apachectl -D FOREGROUND
+
+CMD /etc/init.d/cron start && /usr/sbin/apache2ctl -DFOREGROUND;
