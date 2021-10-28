@@ -2,7 +2,7 @@ version: "3.3"
 
 services:
   webserver:
-    image: "glud/moodle:v1"
+    image: moodle:test
     networks:
       - backend
       - reverse_proxy

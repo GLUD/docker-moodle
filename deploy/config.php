@@ -93,7 +93,7 @@ $CFG->dataroot  = '/var/www/moodledata';
 // to make sure the web server process (eg Apache) can access the files.
 // NOTE: the prefixed 0 is important, and don't use quotes.
 
-$CFG->directorypermissions = 0755;
+$CFG->directorypermissions = 0777;
 
 
 //=========================================================================
