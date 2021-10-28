@@ -1,4 +1,4 @@
-FROM moodlehq/moodle-php-apache:8.0
+FROM moodlehq/moodle-php-apache:7.3
 LABEL maintainer "Bryan Muñoz <swsbmm@gmail.com>"
 LABEL maintainer "Juan Felipe Rodriguez Galindo <juferoga@gmail.com>"
 
